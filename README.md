@@ -101,3 +101,9 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v1
 ```
+
+## Versioning
+
+Releases for library-documentation-action-v2 are done on a "rolling basis". Each time a new nightly ponyc is released, a new version of the library-documentation-action-v2 is released and tagged with `latest`. For each release of ponyc, a new image of library-documentation-action-v2 is created and tagged with `release`. Lastly, if you want to stay pinned to specific version of ponyc, then you can use the corresponding tag for library-documentation-action-v2. For example, to use the library-documentation-action-v2 built with ponyc `0.53.0` you would use `ponylang/library-documentation-action-v2:0.53.0`.
+
+You can get a list of all available images by checking out the [tags page](https://hub.docker.com/r/ponylang/library-documentation-action-v2/tags) of the Docker Hub repository for this image.
