@@ -23,9 +23,7 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "update-documentation"
-  cancel-in-progress: true
+concurrency: release
 
 jobs:
   generate-documentation:
