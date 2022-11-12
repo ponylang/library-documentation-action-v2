@@ -1,10 +1,10 @@
 name: Update latest images
 
 on:
-  workflow_dispatch:
   repository_dispatch:
     types:
       - ponyc-musl-nightly-released
+  workflow_dispatch:
 
 concurrency:
   group: "rebuild-latest-images"
