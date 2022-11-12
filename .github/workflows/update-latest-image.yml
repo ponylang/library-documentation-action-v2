@@ -1,7 +1,7 @@
 name: Update latest images
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   repository_dispatch:
     types:
       - ponyc-musl-nightly-released
