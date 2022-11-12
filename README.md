@@ -107,3 +107,11 @@ jobs:
 Releases for library-documentation-action-v2 are done on a "rolling basis". Each time a new nightly ponyc is released, a new version of the library-documentation-action-v2 is released and tagged with `latest`. For each release of ponyc, a new image of library-documentation-action-v2 is created and tagged with `release`. Lastly, if you want to stay pinned to specific version of ponyc, then you can use the corresponding tag for library-documentation-action-v2. For example, to use the library-documentation-action-v2 built with ponyc `0.53.0` you would use `ponylang/library-documentation-action-v2:0.53.0`.
 
 You can get a list of all available images by checking out the [tags page](https://hub.docker.com/r/ponylang/library-documentation-action-v2/tags) of the Docker Hub repository for this image.
+
+## Private mkdocs-material-insiders images for the Pony organization projectws
+
+The Pony project is a sponsor of the [insiders builds](https://squidfunk.github.io/mkdocs-material/insiders/) of the mkdocs-material theme. The insiders builds feature a number of improvements over the stock version of mkdocs-material. As such, if you are installing the library-documentation-action-v2 on a ponylang project, you should use an image that has been built with the insiders theme installed.
+
+We maintain private images for ponylang organization use of this action that match the public versions. The only difference is the theme installed and where to get them. The private images are stored in a private GitHub Container Registry repository that you can see all the images in it by looking at the [repository page](https://github.com/ponylang/library-documentation-action-v2/pkgs/container/library-documentation-action-v2). Note, only members of the ponylang organization can view the page.
+
+If you are unsure how to access the private repository from a GitHub workflow, check out existing ponylang library projects that are already using the private images.
