@@ -1,0 +1,16 @@
+description: Generates documentation for Pony libraries
+inputs:
+  docs_build_dir:
+    description: Location, relative to the Makefile, that generated documentation
+      will be placed
+    required: true
+  library_name:
+    description: Name of the library being uploaded
+    required: true
+  site_url:
+    description: Url for the site that the documentation will be hosted on
+    required: true
+name: Library Documentation action
+runs:
+  image: Dockerfile
+  using: docker
