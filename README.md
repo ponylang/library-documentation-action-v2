@@ -38,8 +38,8 @@ jobs:
       - name: Generate documentation
         uses: docker://ponylang/library-documentation-action:release
         with:
-          site_url: "https://MYORG.github.io/MYLIBRARY/"
-          library_name: "MYLIBRARY"
+          site_url: "https://MYORG.github.io/MY-LIBRARY/"
+          library_name: "MY-LIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
       - name: Setup Pages
         uses: actions/configure-pages@v2
@@ -86,8 +86,8 @@ jobs:
       - name: Generate documentation
         uses: docker://ponylang/library-documentation-action:release
         with:
-          site_url: "https://MYORG.github.io/MYLIBRARY/"
-          library_name: "MYLIBRARY"
+          site_url: "https://MYORG.github.io/MY-LIBRARY/"
+          library_name: "MY-LIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
       - name: Setup Pages
         uses: actions/configure-pages@v2
