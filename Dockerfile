@@ -1,0 +1,28 @@
+ARG FROM_TAG=release-alpine
+FROM ponylang/ponyc:${FROM_TAG}
+
+ARG PACKAGE
+
+RUN apk add --update --no-cache \
+  bash \
+  libffi \
+  libffi-dev \
+  libressl \
+  libressl-dev \
+  make \
+  python3 \
+  python3-dev \
+  py3-pip \
+  tar
+
+RUN pip3 install --upgrade pip \
+  gitpython \
+  in_place \
+  mkdocs \
+  ${PACKAGE} \
+  pylint \
+  pyyaml
+
+COPY entrypoint.py /entrypoint.py
+
+ENTRYPOINT ["/entrypoint.py"]

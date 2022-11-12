@@ -1,0 +1,69 @@
+name: Update latest images
+
+on:
+  repository_dispatch:
+    types:
+      - ponyc-musl-nightly-released
+  workflow_dispatch:
+
+concurrency:
+  group: "rebuild-latest-images"
+  cancel-in-progress: true
+
+jobs:
+  rebuild-public-latest-image:
+    name: Rebuild latest public image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        run: "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - name: Build
+        run: make build-latest config=public
+      - name: Push
+        run: make push-latest config=public
+      - name: Send alert on failure
+        if: ${{ failure() }}
+        uses: zulip/github-actions-zulip@35d7ad8e98444f894dcfe1d4e17332581d28ebeb
+        with:
+          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
+          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
+          organization-url: 'https://ponylang.zulipchat.com/'
+          to: notifications
+          type: stream
+          topic: ${{ github.repository }} scheduled job failure
+          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
+
+  rebuild-private-latest-image:
+    name: Rebuild latest private image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: make build-latest config=private
+        env:
+          MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
+      - name: Push
+        run: make push-latest config=private
+      - name: Send alert on failure
+        if: ${{ failure() }}
+        uses: zulip/github-actions-zulip@35d7ad8e98444f894dcfe1d4e17332581d28ebeb
+        with:
+          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
+          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
+          organization-url: 'https://ponylang.zulipchat.com/'
+          to: notifications
+          type: stream
+          topic: ${{ github.repository }} scheduled job failure
+          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
