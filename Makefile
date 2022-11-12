@@ -25,13 +25,13 @@ build-latest:
 build-release:
 	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="release-alpine" -t "${IMAGE}:release" .
 
-push: build
+push:
 	docker push "${IMAGE}:${version}"
 
-push-latest: build-latest
+push-latest:
 	docker push "${IMAGE}:latest"
 
-push-release: build-release
+push-release:
 	docker push "${IMAGE}:release"
 
 pylint: build-latest
