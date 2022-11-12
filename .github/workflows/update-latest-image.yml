@@ -24,7 +24,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       - name: Build
         run: make build-latest config=public
-      - name Push
+      - name: Push
         run: make push-latest config=public
       - name: Send alert on failure
         if: ${{ failure() }}
@@ -52,7 +52,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         run: make build-latest config=private
-      - name Push
+      - name: Push
         run: make push-latest config=private
       - name: Send alert on failure
         if: ${{ failure() }}
