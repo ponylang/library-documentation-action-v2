@@ -4,6 +4,7 @@ This document is aimed at members of the team who might be cutting a release of 
 
 ## Releasing
 
-There's no release process library-documentation-action. New `release` and `latest` docker images are created each time a new nightly or release version of ponyc is created.
+There's no release process library-documentation-action. New images are created in response to new versions of ponyc being released. See the following GitHub workflows to see exactly what is created:
 
-We used to have a release process for the library documentation action, but each time there was a breaking change in ponyc, we had to create a new version of the library-documentation-action and every user had to update the version they were using.  Now, on each release a new version is created.
+- [Update latest images](https://github.com/ponylang/library-documentation-action-v2/blob/main/.github/workflows/update-latest-image.yml)
+- [Update release images](https://github.com/ponylang/library-documentation-action-v2/blob/main/.github/workflows/update-release-image.yml)
