@@ -26,18 +26,34 @@ jobs:
           VALIDATE_MD: true
           VALIDATE_YAML: true
 
-  validate-release-docker-image-builds:
-    name: Validate Docker image builds
+  validate-public-release-image-builds:
+    name: Validate public release image builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Docker build
-        run: make build-release
+        run: make build-release config=public
 
-  validate-latest-docker-image-builds:
-    name: Validate Docker image builds
+  validate-public-latest-image-builds:
+    name: Validate public latest image builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Docker build
-        run: make build-latest
+        run: make build-latest config=public
+
+  validate-private-release-image-builds:
+    name: Validate private release image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker build
+        run: make build-release config=private
+
+  validate-private-latest-image-builds:
+    name: Validate private latest image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker build
+        run: make build-latest config=private
