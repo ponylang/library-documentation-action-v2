@@ -101,9 +101,3 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v1
 ```
-
-## Versioning
-
-We used to do versioning for the library-documentation-action but this lead to a lot of extra work each time a new version of ponyc was released. This action is considered feature complete and we don't intend to do any breaking updates to it. It will be deprecated in the future and replaced by a pony documentation command that ships with ponyc.
-
-Until then, to use this action, you should be tracking the `release` docker image and keeping your library up-to-date with any breaking ponyc changes. Using this action without keeping up with changes in ponyc will result in the action failing because the ponyc in the action image is incompatible with your code.
