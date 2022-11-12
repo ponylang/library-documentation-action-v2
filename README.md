@@ -36,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Generate documentation
-        uses: docker://ponylang/library-documentation-action:release
+        uses: docker://ponylang/library-documentation-action-v2:release
         with:
           site_url: "https://MYORG.github.io/MY-LIBRARY/"
           library_name: "MY-LIBRARY"
@@ -84,7 +84,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Generate documentation
-        uses: docker://ponylang/library-documentation-action:release
+        uses: docker://ponylang/library-documentation-action-v2:release
         with:
           site_url: "https://MYORG.github.io/MY-LIBRARY/"
           library_name: "MY-LIBRARY"
