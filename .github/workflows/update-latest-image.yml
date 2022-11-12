@@ -67,3 +67,12 @@ jobs:
           type: stream
           topic: ${{ github.repository }} scheduled job failure
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
+
+  log-event:
+    name: Log all incoming events
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log event
+        run: echo "$EVENT"
+        env:
+          EVENT: ${{ toJson(github.event) }}
