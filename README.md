@@ -112,4 +112,4 @@ The Pony project is a sponsor of the [insiders builds](https://squidfunk.github.
 
 We maintain private images for ponylang organization use of this action that match the public versions. The only difference is the theme installed and where to get them. The private images are stored in a private GitHub Container Registry repository that you can see all the images in it by looking at the [repository page](https://github.com/ponylang/library-documentation-action-v2/pkgs/container/library-documentation-action-v2). Note, only members of the ponylang organization can view the page.
 
-If you are unsure how to access the private repository from a GitHub workflow, check out existing ponylang library projects that are already using the private images.
+Please refer to existing usage of the action in ponylang projects for how to install. You'll need to use it as a job container instead of an action as you can't currently load actions from a private repository.
