@@ -52,6 +52,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         run: make build-latest config=private
+        env:
+          MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
       - name: Push
         run: make push-latest config=private
       - name: Send alert on failure

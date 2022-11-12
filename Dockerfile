@@ -1,6 +1,8 @@
 ARG FROM_TAG=release-alpine
 FROM ponylang/ponyc:${FROM_TAG}
 
+ARG PACKAGE
+
 RUN apk add --update --no-cache \
   bash \
   libffi \
@@ -17,7 +19,7 @@ RUN pip3 install --upgrade pip \
   gitpython \
   in_place \
   mkdocs \
-  mkdocs-material \
+  ${PACKAGE} \
   pylint \
   pyyaml
 
