@@ -34,7 +34,7 @@ name: Release
 on:
   push:
     tags:
-      - \d+.\d+.\d+
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 permissions:
   contents: read
