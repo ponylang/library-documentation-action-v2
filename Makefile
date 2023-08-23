@@ -7,7 +7,7 @@ ifdef config
 endif
 
 ifeq ($(config),private)
-	IMAGE := ghcr.io/ponylang/library-documentation-action-v2
+	IMAGE := ghcr.io/ponylang/library-documentation-action-v2-insiders
 	PACKAGE = "git+https://${MATERIAL_INSIDERS_ACCESS}@github.com/squidfunk/mkdocs-material-insiders.git"
 else
 	IMAGE = ponylang/library-documentation-action-v2
