@@ -17,15 +17,26 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
-      - name: Login to Docker Hub
+      - name: Login to DockerHub
         run: docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      - name: Build
-        run: make build-release config=public
-      - name: Push
-        run: make push-release config=public
+      - name: Build and Push to DockerHub
+        run: |
+          make build-release config=dockerhub
+          make push-release config=dockerhub
+      - name: Login to GitHub Container Registry
+        # v2.2.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push to GitHub Container Registry
+        run: |
+          make build-release config=public
+          make push-release config=public
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@b62d5a0e48a4d984ea4fce5dd65ba691963d4db4
@@ -45,7 +56,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        # v2.2.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -82,12 +94,23 @@ jobs:
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      - name: Build
-        run: make build version="${VERSION}" config=public
+      - name: Build and Push to DockerHub
+        run: |
+          make build version="${VERSION}" config=dockerhub
+          make push version="${VERSION}" config=dockerhub
         env:
           VERSION: ${{ github.event.client_payload.version }}
-      - name: Push
-        run: make push version="${VERSION}" config=public
+      - name: Login to GitHub Container Registry
+        # v2.2.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push to GitHub Container Registry
+        run: |
+          make build version="${VERSION}" config=public
+          make push version="${VERSION}" config=public
         env:
           VERSION: ${{ github.event.client_payload.version }}
       - name: Send alert on failure
@@ -112,7 +135,8 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        # v2.2.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
