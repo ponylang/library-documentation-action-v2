@@ -1,7 +1,7 @@
 config ?= public
 
 ifdef config
-	ifeq (,$(filter $(config),public private dockerhub))
+	ifeq (,$(filter $(config),public private))
 		$(error Unknown configuration "$(config)")
 	endif
 endif
@@ -9,9 +9,6 @@ endif
 ifeq ($(config),private)
 	IMAGE := ghcr.io/ponylang/library-documentation-action-v2-insiders
 	PACKAGE = "git+https://${MATERIAL_INSIDERS_ACCESS}@github.com/squidfunk/mkdocs-material-insiders.git"
-else ifeq ($(config),dockerhub)
-	IMAGE = ponylang/library-documentation-action-v2
-	PACKAGE = "mkdocs-material"
 else
 	IMAGE = ghcr.io/ponylang/library-documentation-action-v2
 	PACKAGE = "mkdocs-material"
