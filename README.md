@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
       - name: Generate documentation
         uses: docker://ponylang/library-documentation-action-v2:release
         with:
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
       - name: Generate documentation
         uses: docker://ponylang/library-documentation-action-v2:release
         with:
