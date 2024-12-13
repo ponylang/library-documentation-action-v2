@@ -60,14 +60,14 @@ jobs:
           library_name: "MY-LIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: 'build/MY-LIBRARY-docs/site/'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
 ```
 
 ## Manually triggering a documentation build and deploy
@@ -108,14 +108,14 @@ jobs:
           library_name: "MY-LIBRARY"
           docs_build_dir: "build/MY-LIBRARY-docs"
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: 'build/MY-LIBRARY-docs/site/'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
 ```
 
 ## Versioning
