@@ -5,6 +5,9 @@ on:
     types:
       - ponyc-musl-released
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 concurrency:
   group: "rebuild-release-images"
