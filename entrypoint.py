@@ -192,7 +192,8 @@ for f in os.listdir(docs_dir):
     with in_place.InPlace(p) as fp:
         for line in fp:
             for removed in removed_docs:
-                if removed in line:
+                md_link_text = '(' + removed + ')'
+                if md_link_text in line:
                     print(INFO + "Replacing link for " + removed + "." + ENDC)
 
                     # get the package name
