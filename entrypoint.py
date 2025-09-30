@@ -61,7 +61,7 @@ for f in os.listdir(docs_dir):
 
 print(INFO + "Removing 'other sources'." + ENDC)
 for f in os.listdir(source_dir):
-    if f != library_name:
+    if not (f.startswith(library_name + '-') or (f == library_name)):
         p = os.path.join(source_dir, f)
         if os.path.isfile(p):
             os.remove(p)
