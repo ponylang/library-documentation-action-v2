@@ -3,7 +3,7 @@ name: Update release images
 on:
   repository_dispatch:
     types:
-      - ponyc-musl-released
+      - ponyc-release-image-pushed
   workflow_dispatch:
   push:
     branches:
@@ -76,7 +76,7 @@ jobs:
 
   build-public-specific-version-image:
     if: |
-      github.event.action == 'ponyc-musl-released'
+      github.event.action == 'ponyc-release-image-pushed'
 
     name: Build public image for just released version
     runs-on: ubuntu-latest
@@ -110,7 +110,7 @@ jobs:
 
   build-private-specific-version-image:
     if: |
-      github.event.action == 'ponyc-musl-released'
+      github.event.action == 'ponyc-release-image-pushed'
 
     name: Build private image for just released version
     runs-on: ubuntu-latest

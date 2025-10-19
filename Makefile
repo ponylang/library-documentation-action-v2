@@ -17,13 +17,13 @@ endif
 all: pylint
 
 build:
-	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="${version}-alpine" -t "${IMAGE}:${version}" .
+	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="${version}" -t "${IMAGE}:${version}" .
 
 build-latest:
-	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="alpine" -t "${IMAGE}:latest" .
+	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="nightly" -t "${IMAGE}:latest" .
 
 build-release:
-	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="release-alpine" -t "${IMAGE}:release" .
+	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="release" -t "${IMAGE}:release" .
 
 push:
 	docker push "${IMAGE}:${version}"
