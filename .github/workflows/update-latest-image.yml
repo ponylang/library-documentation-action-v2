@@ -3,7 +3,7 @@ name: Update latest images
 on:
   repository_dispatch:
     types:
-      - ponyc-musl-nightly-released
+      - ponyc-nightly-image-pushed
   workflow_dispatch:
   push:
     branches:
