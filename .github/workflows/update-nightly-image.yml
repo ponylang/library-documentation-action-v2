@@ -13,6 +13,9 @@ concurrency:
   group: "rebuild-nightly-images"
   cancel-in-progress: true
 
+permissions:
+  packages: write
+
 jobs:
   rebuild-public-nightly-image:
     name: Rebuild nightly public image
