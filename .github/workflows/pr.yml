@@ -38,13 +38,13 @@ jobs:
       - name: Docker build
         run: make build-release config=public
 
-  validate-public-latest-image-builds:
-    name: Validate public latest image builds
+  validate-public-nightly-image-builds:
+    name: Validate public nightly image builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Docker build
-        run: make build-latest config=public
+        run: make build-nightly config=public
 
   validate-private-release-image-builds:
     name: Validate private release image builds
@@ -56,13 +56,12 @@ jobs:
         env:
           MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
 
-  validate-private-latest-image-builds:
-    name: Validate private latest image builds
+  validate-private-nightly-image-builds:
+    name: Validate private nightly image builds
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Docker build
-        run: make build-latest config=private
+        run: make build-nightly config=private
         env:
           MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
-
