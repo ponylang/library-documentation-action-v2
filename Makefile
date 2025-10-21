@@ -19,8 +19,8 @@ all: pylint
 build:
 	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="${version}" -t "${IMAGE}:${version}" .
 
-build-latest:
-	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="nightly" -t "${IMAGE}:latest" .
+build-nightly:
+	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="nightly" -t "${IMAGE}:nightly" .
 
 build-release:
 	docker build --pull --build-arg PACKAGE="${PACKAGE}" --build-arg FROM_TAG="release" -t "${IMAGE}:release" .
@@ -28,13 +28,13 @@ build-release:
 push:
 	docker push "${IMAGE}:${version}"
 
-push-latest:
-	docker push "${IMAGE}:latest"
+push-nightly:
+	docker push "${IMAGE}:nightly"
 
 push-release:
 	docker push "${IMAGE}:release"
 
-pylint: build-latest
-	docker run --entrypoint pylint --rm "${IMAGE}:latest" /entrypoint.py
+pylint: build-nightly
+	docker run --entrypoint pylint --rm "${IMAGE}:nightly" /entrypoint.py
 
 .PHONY: build pylint
