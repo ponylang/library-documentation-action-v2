@@ -13,6 +13,9 @@ concurrency:
   group: "rebuild-release-images"
   cancel-in-progress: true
 
+permissions:
+  packages: write
+
 jobs:
   rebuild-public-release-image:
     name: Rebuild release public image
