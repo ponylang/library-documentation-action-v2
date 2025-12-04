@@ -17,8 +17,8 @@ permissions:
   packages: write
 
 jobs:
-  rebuild-public-release-image:
-    name: Rebuild release public image
+  rebuild-release-image:
+    name: Rebuild release image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -32,8 +32,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Push to GitHub Container Registry
         run: |
-          make build-release config=public
-          make push-release config=public
+          make build-release
+          make push-release
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
@@ -46,42 +46,11 @@ jobs:
           topic: ${{ github.repository }} scheduled job failure
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
-  rebuild-private-release-image:
-    name: Rebuild release private image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4.1.1
-      - name: Login to GitHub Container Registry
-        # v2.2.0
-        uses: docker/login-action@5139682d94efc37792e6b54386b5b470a68a4737
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: make build-release config=private
-        env:
-          MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
-      - name: Push
-        run: make push-release config=private
-      - name: Send alert on failure
-        if: ${{ failure() }}
-        uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
-        with:
-          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
-          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
-          organization-url: 'https://ponylang.zulipchat.com/'
-          to: notifications
-          type: stream
-          topic: ${{ github.repository }} scheduled job failure
-          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
-
-  build-public-specific-version-image:
+  build-specific-version-image:
     if: |
       github.event.action == 'ponyc-release-image-pushed'
 
-    name: Build public image for just released version
+    name: Build image for just released version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -95,45 +64,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Push to GitHub Container Registry
         run: |
-          make build version="${VERSION}" config=public
-          make push version="${VERSION}" config=public
-        env:
-          VERSION: ${{ github.event.client_payload.version }}
-      - name: Send alert on failure
-        if: ${{ failure() }}
-        uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
-        with:
-          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
-          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
-          organization-url: 'https://ponylang.zulipchat.com/'
-          to: notifications
-          type: stream
-          topic: ${{ github.repository }} scheduled job failure
-          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
-
-  build-private-specific-version-image:
-    if: |
-      github.event.action == 'ponyc-release-image-pushed'
-
-    name: Build private image for just released version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4.1.1
-      - name: Login to GitHub Container Registry
-        # v2.2.0
-        uses: docker/login-action@5139682d94efc37792e6b54386b5b470a68a4737
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: make build version="${VERSION}" config=private
-        env:
-          VERSION: ${{ github.event.client_payload.version }}
-          MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
-      - name: Push
-        run: make push version="${VERSION}" config=private
+          make build version="${VERSION}"
+          make push version="${VERSION}"
         env:
           VERSION: ${{ github.event.client_payload.version }}
       - name: Send alert on failure

@@ -17,8 +17,8 @@ permissions:
   packages: write
 
 jobs:
-  rebuild-public-nightly-image:
-    name: Rebuild nightly public image
+  rebuild-nightly-image:
+    name: Rebuild nightly image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -32,8 +32,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push to GitHub Container Registry
         run: |
-          make build-nightly config=public
-          make push-nightly config=public
+          make build-nightly
+          make push-nightly
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
@@ -46,42 +46,11 @@ jobs:
           topic: ${{ github.repository }} scheduled job failure
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
-  rebuild-private-nightly-image:
-    name: Rebuild nightly private image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source
-        uses: actions/checkout@v4.1.1
-      - name: Login to GitHub Container Registry
-        # v2.2.0
-        uses: docker/login-action@5139682d94efc37792e6b54386b5b470a68a4737
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: make build-nightly config=private
-        env:
-          MATERIAL_INSIDERS_ACCESS: ${{ secrets.MATERIAL_INSIDERS_ACCESS }}
-      - name: Push
-        run: make push-nightly config=private
-      - name: Send alert on failure
-        if: ${{ failure() }}
-        uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
-        with:
-          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
-          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
-          organization-url: 'https://ponylang.zulipchat.com/'
-          to: notifications
-          type: stream
-          topic: ${{ github.repository }} scheduled job failure
-          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
-
-  prune-untagged-public-images:
+  prune-untagged-images:
     needs:
-      - rebuild-public-nightly-image
+      - rebuild-nightly-image
 
-    name: Prune untagged public images
+    name: Prune untagged images
     runs-on: ubuntu-latest
     steps:
       - name: Prune
@@ -89,33 +58,6 @@ jobs:
         uses: actions/delete-package-versions@0d39a63126868f5eefaa47169615edd3c0f61e20
         with:
           package-name: 'library-documentation-action-v2'
-          package-type: 'container'
-          min-versions-to-keep: 1
-          delete-only-untagged-versions: 'true'
-      - name: Send alert on failure
-        if: ${{ failure() }}
-        uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
-        with:
-          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
-          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
-          organization-url: 'https://ponylang.zulipchat.com/'
-          to: notifications
-          type: stream
-          topic: ${{ github.repository }} scheduled job failure
-          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
-
-  prune-untagged-private-images:
-    needs:
-      - rebuild-private-nightly-image
-
-    name: Prune untagged private images
-    runs-on: ubuntu-latest
-    steps:
-      - name: Prune
-        # v4.1.1
-        uses: actions/delete-package-versions@0d39a63126868f5eefaa47169615edd3c0f61e20
-        with:
-          package-name: 'library-documentation-action-v2-insiders'
           package-type: 'container'
           min-versions-to-keep: 1
           delete-only-untagged-versions: 'true'
