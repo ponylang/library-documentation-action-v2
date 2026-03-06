@@ -17,9 +17,13 @@ push:
 
 push-nightly:
 	docker push "${IMAGE}:nightly"
+	docker tag "${IMAGE}:nightly" "${IMAGE}-insiders:nightly"
+	docker push "${IMAGE}-insiders:nightly"
 
 push-release:
 	docker push "${IMAGE}:release"
+	docker tag "${IMAGE}:release" "${IMAGE}-insiders:release"
+	docker push "${IMAGE}-insiders:release"
 
 pylint: build-nightly
 	docker run --entrypoint pylint --rm "${IMAGE}:nightly" /entrypoint.py
