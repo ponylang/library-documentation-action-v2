@@ -81,8 +81,8 @@ with open(mkdocs_yml_file, encoding="utf8") as infile:
     nav = mkdocs_yml['nav']
 
     new_nav = []
-    library_package_key = 'package ' + library_name
-    library_subpackage_key = 'package ' + library_name + '/'
+    library_module_key = 'module ' + library_name
+    library_submodule_key = 'module ' + library_name + '/'
     for entry in nav:
         # there's only 1 entry but we don't know what it is because
         # well that's how the yaml package represents this thing should be a
@@ -92,15 +92,15 @@ with open(mkdocs_yml_file, encoding="utf8") as infile:
                 # library index entry. keep it.
                 new_nav.append(entry)
 
-            if k == library_package_key \
-              or k.startswith(library_subpackage_key):
-                # package entry. keep it.
-                # record the package name for later usage
+            if k == library_module_key \
+              or k.startswith(library_submodule_key):
+                # module entry. keep it.
+                # record the module name for later usage
                 new_nav.append(entry)
                 # entry will look like one of:
-                # package semver
-                # package semver/subpackage
-                packages.append(k[8:])
+                # module semver
+                # module semver/submodule
+                packages.append(k[7:])
 
     mkdocs_yml['nav'] = new_nav
 
